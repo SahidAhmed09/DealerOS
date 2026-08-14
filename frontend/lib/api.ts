@@ -1,4 +1,4 @@
-import type { Disagreement, Ordering, Organization, Reason } from "./types";
+import type { Disagreement, Ordering, OrgSummary, Organization, Reason } from "./types";
 
 // Talks directly to the Django API from the browser (CORS is open on the
 // backend for exactly this reason). No server-side proxy: the contract is
@@ -35,6 +35,10 @@ async function get<T>(path: string): Promise<T> {
 
 export function getOrganizations(): Promise<Organization[]> {
   return get<Organization[]>("/orgs/");
+}
+
+export function getOrgSummary(orgId: string): Promise<OrgSummary> {
+  return get<OrgSummary>(`/orgs/${encodeURIComponent(orgId)}/summary/`);
 }
 
 export function getDisagreements(

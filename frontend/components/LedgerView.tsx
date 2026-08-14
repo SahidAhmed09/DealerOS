@@ -2,8 +2,9 @@
 
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
-import { ApiError, getDisagreements } from "@/lib/api";
-import { REASON_LABEL, REASONS, type Disagreement, type Ordering, type Reason } from "@/lib/types";
+import { ApiError, getDisagreements, getOrgSummary } from "@/lib/api";
+import { REASON_LABEL, REASONS, type Disagreement, type Ordering, type OrgSummary, type Reason } from "@/lib/types";
+import { CoverageStrip } from "./CoverageStrip";
 import { EmptyState } from "./EmptyState";
 import { ErrorState } from "./ErrorState";
 import { FilterToolbar } from "./FilterToolbar";
@@ -24,6 +25,7 @@ import { SkeletonRows } from "./SkeletonRows";
  */
 export function LedgerView({ orgId }: { orgId: string }) {
   const [rows, setRows] = useState<Disagreement[] | null>(null);
+  const [summary, setSummary] = useState<OrgSummary | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [notFound, setNotFound] = useState(false);
   const [attempt, setAttempt] = useState(0);
@@ -48,6 +50,15 @@ export function LedgerView({ orgId }: { orgId: string }) {
             : "Something went wrong loading this ledger.",
         );
       });
+    // The coverage strip is a nice-to-have on top of the disagreements
+    // list, not a second thing that can block the page: if this call
+    // fails, the strip just doesn't render (see below), nothing else
+    // depends on it.
+    getOrgSummary(orgId)
+      .then((data) => {
+        if (!ignore) setSummary(data);
+      })
+      .catch(() => {});
     return () => {
       ignore = true;
     };
@@ -57,6 +68,7 @@ export function LedgerView({ orgId }: { orgId: string }) {
   // here before kicking off the retry.
   const retry = () => {
     setRows(null);
+    setSummary(null);
     setError(null);
     setNotFound(false);
     setAttempt((a) => a + 1);
@@ -114,6 +126,8 @@ export function LedgerView({ orgId }: { orgId: string }) {
 
   return (
     <div className="flex flex-col gap-5">
+      {summary && <CoverageStrip summary={summary} />}
+
       <FilterToolbar
         counts={counts}
         total={rows.length}

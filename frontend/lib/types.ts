@@ -50,3 +50,11 @@ export interface Disagreement {
 }
 
 export type Ordering = "sort_value" | "-sort_value" | "created_at" | "-created_at";
+
+export interface OrgSummary {
+  org_id: string;
+  system_a_records_checked: number;
+  system_b_entries_checked: number;
+  disagreements_found: number;
+  records_reconciled_cleanly: number;
+}
