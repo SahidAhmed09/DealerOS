@@ -2,11 +2,12 @@
 
 A screen that shows every place two record-keeping systems (System A and System B) disagree about the same dealership events, scoped strictly to one dealer group at a time. Built for the DealerOS full-stack take-home.
 
-Two companion documents go deeper than this one:
+Companion documents that go deeper than this one:
 
 - `CODE_WALKTHROUGH.md`, a line-by-line explanation of the backend, with real examples from the actual dataset.
 - `FRONTEND_WALKTHROUGH.md`, the same thing for the Next.js frontend, plus a short primer on how Next.js itself works.
 - `DECISIONS.md`, ten short entries: the decision, the alternative rejected, and the one line that separated them.
+- `TEST_REPORT.md`, the full output of a fresh test run and a fresh reconciliation run, with every disagreement entry listed. See the Tests section below for the short version.
 
 ## How to run it
 
@@ -46,6 +47,35 @@ Everything the brief asked for, plus a few things the data justified:
 - **Compare.** All four required disagreement types (missing in B, orphan entry, duplicate entry, value mismatch), plus two more the dataset actually contained: a date mismatch and a location mismatch. The location mismatch is the one that directly proves tenant isolation: a record where System A and System B disagree about which dealer group it even belongs to still never leaks into the wrong org's results.
 - **Show.** A ledger-styled table, filterable by reason and sortable by value, exactly as asked. Each row expands in place to reveal the full explanation without a modal. A small coverage strip above the table shows how many records were actually checked, so a low disagreement count reads as "most records agree," not "data went missing."
 - **Test.** 24 backend tests, one for every disagreement type plus the two edge cases that are easy to get wrong: a record that looks like a duplicate but is actually a valid split (shouldn't be flagged), and a record with conflicting org signals (must never leak to the wrong tenant).
+
+## Tests
+
+The test code lives in its own folder under the backend, `backend/reconciliation/tests/`, separate from the application code it tests:
+
+- `test_utils.py`, tests for the two parsing helpers (`normalize_record_ref`, `parse_money`): all four dirty `record_ref` spellings found in the dataset, both currency-grouping styles, and blank or garbage input.
+- `test_reconciliation.py`, tests for the actual comparison logic, the part the brief specifically asks to be tested. One test per required disagreement type, plus the two edge cases that are easy to get wrong (a record that looks like a duplicate but is actually a valid split, and a record with conflicting org signals that must never leak to the wrong tenant).
+
+**Result, from a fresh run: 24 of 24 tests passed.**
+
+| What's tested | Result |
+|---|---|
+| A record in System A with no entry in System B | pass |
+| A System B entry pointing at a record that doesn't exist | pass |
+| The same record entered into System B twice | pass |
+| The two systems reporting different values | pass |
+| A date mismatch, and a location mismatch (found in the data, not required by name but caught anyway) | pass |
+| A "false positive" duplicate that's actually a valid split, correctly not flagged | pass |
+| A conflicting-org record, confirmed it never leaks to the other org's results | pass |
+| Currency and record-reference parsing against every dirty format in the dataset | pass |
+
+For the full detail, the exact test names, the raw pass/fail log, and every one of the 11 real disagreement entries the reconciliation produced when run fresh against the actual dataset, see `TEST_REPORT.md` at the repo root.
+
+Run it yourself:
+
+```
+cd backend
+python manage.py test reconciliation
+```
 
 ## What was deliberately left out
 
