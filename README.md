@@ -4,7 +4,7 @@ A screen that shows every place two record-keeping systems (System A and System 
 
 Companion documents that go deeper than this one:
 
-- `DECISIONS.md`, ten short entries: the decision, the alternative rejected, and the one line that separated them.
+- `DECISIONS.md`, nine short entries: what was decided, what was turned down instead, and why.
 - `TEST_REPORT.md`, the full output of a fresh test run and a fresh reconciliation run, with every disagreement entry listed. See the Tests section below for the short version.
 
 ## Clone and set up
@@ -18,7 +18,7 @@ git clone https://github.com/SahidAhmed09/DealerOS.git
 cd DealerOS
 ```
 
-The three dataset CSVs (`locations.csv`, `system_a.csv`, `system_b.csv`) come with the clone, already sitting at `DealerOS_Assignment_Dataset/` in the repo root, one level up from `backend/`, exactly where the importer expects them (see `DECISIONS.md` #10 for why they're committed rather than a manual setup step). Nothing to fetch or place by hand. If you ever need to point the importer somewhere else anyway, `python manage.py import_data --path <your-dir>` overrides the default location.
+The three dataset CSVs (`locations.csv`, `system_a.csv`, `system_b.csv`) come with the clone, already sitting at `DealerOS_Assignment_Dataset/` in the repo root, one level up from `backend/`, exactly where the importer expects them (see `DECISIONS.md` #9 for why they're committed rather than a manual setup step). Nothing to fetch or place by hand. If you ever need to point the importer somewhere else anyway, `python manage.py import_data --path <your-dir>` overrides the default location.
 
 ### 2. Set up and run the backend
 
