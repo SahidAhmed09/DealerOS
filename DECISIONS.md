@@ -38,6 +38,6 @@ Format: the decision, the alternative rejected, and the one line that separated 
    Rejected: calling `?reason=X&ordering=Y` again every time the filter or sort control changes.
    Why: the backend's query parameters are real and tested, but a whole org's disagreement list is small enough to fit in memory easily; re-slicing an array already in hand is instant and skips a network round trip this dataset's size doesn't need.
 
-10. **The three dataset CSVs are not committed to the git repo; the README documents the exact path to place them instead.**
-    Rejected: committing `DealerOS_Assignment_Dataset/` alongside the code.
-    Why: the CSVs are assignment-supplied material the evaluator already has, not something authored for this submission; the repo stays scoped to actual work product, and the setup steps name the precise expected folder so a clean clone plus the known files still means a running app in four commands.
+10. **The three dataset CSVs are committed directly in the repo, at `DealerOS_Assignment_Dataset/`.**
+    Rejected: keeping them out of git and documenting a manual "place them here" step (the original call, reversed once "clean clone" was weighed against it).
+    Why: "does it run from a clean clone" is 30% of the grade; committing the three files means `git clone` plus four commands is genuinely the whole setup, with nothing to separately fetch or place by hand.
