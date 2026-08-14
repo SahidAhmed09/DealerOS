@@ -109,9 +109,7 @@ Before any code was written, Claude read the full assignment brief, wrote an act
 
 The backend was built one logical layer at a time (schema, then importer, then reconciliation logic, then tests, then API), each step its own git commit, so the commit history itself shows the real build order rather than one large squash at the end. Every meaningful claim was checked against a real run: the reconciliation output was compared row by row against the hand-verified list of anomalies in the raw CSVs, the entire pipeline was re-run from a wiped database to simulate a clean clone, and the frontend's error handling was tested by actually stopping and restarting the Django server mid-session, not just by reading the code and assuming it would work.
 
-`DECISIONS.md`, `HANDOVER.md`, and `CONSTRAINTS.md` were kept as living documents through the build, updated as real decisions got made, not written retroactively at the end. When ESLint flagged a real issue in the frontend's data-fetching code (a synchronous state update inside a React effect), the fix was the actual recommended pattern, not a suppressed warning, and understanding why the rule existed was part of the fix, not an afterthought.
-
-I also had Claude produce two deep code walkthroughs, one for the backend and one for the frontend, specifically so I could explain any individual line of this codebase on the follow-up call without having to re-derive it from scratch.
+`DECISIONS.md` was kept as a living document through the build, updated as real decisions got made, not written retroactively at the end. When ESLint flagged a real issue in the frontend's data-fetching code (a synchronous state update inside a React effect), the fix was the actual recommended pattern, not a suppressed warning, and understanding why the rule existed was part of the fix, not an afterthought.
 
 ## Reflection
 
