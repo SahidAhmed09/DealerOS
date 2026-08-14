@@ -9,11 +9,36 @@ Companion documents that go deeper than this one:
 - `DECISIONS.md`, ten short entries: the decision, the alternative rejected, and the one line that separated them.
 - `TEST_REPORT.md`, the full output of a fresh test run and a fresh reconciliation run, with every disagreement entry listed. See the Tests section below for the short version.
 
-## How to run it
+## Clone and set up
 
-You need two terminals, one for each half.
+Five steps, start to finish: clone, place the dataset, set up the backend, set up the frontend, run both. You'll need Python 3.11+, Node 18+, and the three dataset CSVs from the assignment (`locations.csv`, `system_a.csv`, `system_b.csv`), which aren't in this repo, see step 2 for why and where they go.
 
-**Backend** (Django, SQLite, from a clean clone):
+### 1. Clone the repo
+
+```
+git clone https://github.com/SahidAhmed09/DealerOS.git
+cd DealerOS
+```
+
+### 2. Place the dataset
+
+The importer looks for the three CSVs one level up from `backend/`, in a folder named exactly `DealerOS_Assignment_Dataset`. Create it at the repo root and drop the three files in:
+
+```
+DealerOS/
+  DealerOS_Assignment_Dataset/
+    locations.csv
+    system_a.csv
+    system_b.csv
+  backend/
+  frontend/
+```
+
+These weren't committed to the repo on purpose (see `DECISIONS.md` #10), they're the assignment's own attachments, not something authored for this submission, so the repo stays scoped to actual work. If you already have the assignment's dataset folder from wherever it was provided, just copy it here as-is, the file names above are exactly what it should already contain. If you ever need to point the importer somewhere else, `python manage.py import_data --path <your-dir>` overrides the default location.
+
+### 3. Set up and run the backend
+
+From the repo root:
 
 ```
 cd backend
@@ -27,17 +52,24 @@ python manage.py test reconciliation
 python manage.py runserver 8000
 ```
 
-The last three steps load the real CSVs, compute every disagreement, and confirm the 24 tests pass. `runserver` starts the API at `http://127.0.0.1:8000`.
+No `.env` file needed here, there's nothing secret to configure (no auth, no external services, SQLite is just a file). `migrate` builds the database, `import_data` loads the three CSVs, `reconcile` computes every disagreement, `test` confirms the 24 tests pass, and `runserver` starts the API at `http://127.0.0.1:8000`. Leave this terminal running.
 
-**Frontend** (Next.js), in a second terminal:
+### 4. Set up and run the frontend
+
+In a **second terminal**, from the repo root:
 
 ```
 cd frontend
 npm install
+copy .env.example .env.local        (Mac/Linux: cp .env.example .env.local)
 npm run dev
 ```
 
-Opens at `http://localhost:3000`. It talks directly to the Django API running on port 8000 (configurable via `NEXT_PUBLIC_API_BASE_URL` in `.env.local`, see `.env.example`), so the backend needs to already be running.
+`.env.local` holds one variable, `NEXT_PUBLIC_API_BASE_URL`, already set to `http://127.0.0.1:8000/api` in `.env.example`, matching the backend's default port from step 3. Change it there if you ran the backend on a different port. Opens at `http://localhost:3000`.
+
+### 5. You're running
+
+Both terminals need to stay open, the frontend talks directly to the Django API in the browser. Visit `http://localhost:3000`, pick a dealer group, and the ledger loads from the live backend.
 
 ## What was built
 
