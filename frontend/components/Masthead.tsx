@@ -5,7 +5,7 @@ import type { Organization } from "@/lib/types";
 /**
  * The signature element: an unmissable "which ledger am I looking at"
  * band. Tenant isolation is a hard backend guarantee (see DECISIONS.md in
- * the repo root); this makes it a hard *visual* guarantee too — there is
+ * the repo root); this makes it a hard *visual* guarantee too. There is
  * no view of this product where the current org isn't the loudest thing
  * on screen. Keyed by orgId so switching orgs re-plays the entrance
  * animation, giving the switch a felt "new ledger, opened" moment instead

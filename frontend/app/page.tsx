@@ -21,7 +21,7 @@ export default async function OrgPickerPage() {
         <h2 className="text-heading-sm font-semibold">Choose a dealer group</h2>
         <p className="mt-1 max-w-xl text-body text-ink-secondary">
           Each dealer group only ever sees its own disagreements between System A and
-          System B — pick one to open its ledger.
+          System B, pick one to open its ledger.
         </p>
 
         {loadError ? (

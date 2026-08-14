@@ -1,4 +1,4 @@
-// A small fixed set of identity colors for the org switcher only — never
+// A small fixed set of identity colors for the org switcher only, never
 // used elsewhere in the UI, so the rest of the tool looks identical no
 // matter which org is selected. Assigned by a stable hash so it scales
 // past the two orgs in the sample dataset without collapsing to one color.
