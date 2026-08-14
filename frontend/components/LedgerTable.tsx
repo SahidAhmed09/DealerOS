@@ -53,8 +53,18 @@ export function LedgerTable({ rows }: { rows: Disagreement[] }) {
               <th className="w-10 py-2.5 pr-3 font-medium">Reason</th>
               <th className="py-2.5 pr-3 font-medium">Record</th>
               <th className="py-2.5 pr-3 font-medium">Location</th>
-              <th className="py-2.5 pr-3 text-right font-medium">System A</th>
-              <th className="py-2.5 pr-3 text-right font-medium">System B</th>
+              <th
+                title="What System A recorded for this event."
+                className="py-2.5 pr-3 text-right font-medium underline decoration-dotted decoration-ink-faint/50 underline-offset-2"
+              >
+                System A
+              </th>
+              <th
+                title="What System B recorded for the same event."
+                className="py-2.5 pr-3 text-right font-medium underline decoration-dotted decoration-ink-faint/50 underline-offset-2"
+              >
+                System B
+              </th>
               <th className="py-2.5 pl-3 text-right font-medium">Logged</th>
             </tr>
           </thead>

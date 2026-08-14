@@ -126,6 +126,14 @@ export function LedgerView({ orgId }: { orgId: string }) {
 
   return (
     <div className="flex flex-col gap-5">
+      <p className="max-w-2xl text-body text-ink-secondary">
+        <strong className="font-medium text-ink">System A</strong> and{" "}
+        <strong className="font-medium text-ink">System B</strong> independently record{" "}
+        {orgId}&apos;s events — neither is assumed correct.{" "}
+        <strong className="font-medium text-ink">Reconciled cleanly</strong> means the two agreed;
+        everything in the table below is where they didn&apos;t.
+      </p>
+
       {summary && <CoverageStrip summary={summary} />}
 
       <FilterToolbar
