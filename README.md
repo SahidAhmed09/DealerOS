@@ -4,8 +4,6 @@ A screen that shows every place two record-keeping systems (System A and System 
 
 Companion documents that go deeper than this one:
 
-- `CODE_WALKTHROUGH.md`, a line-by-line explanation of the backend, with real examples from the actual dataset.
-- `FRONTEND_WALKTHROUGH.md`, the same thing for the Next.js frontend, plus a short primer on how Next.js itself works.
 - `DECISIONS.md`, ten short entries: the decision, the alternative rejected, and the one line that separated them.
 - `TEST_REPORT.md`, the full output of a fresh test run and a fresh reconciliation run, with every disagreement entry listed. See the Tests section below for the short version.
 
