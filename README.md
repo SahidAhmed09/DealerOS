@@ -30,7 +30,9 @@ First run takes a couple of minutes to build both images. On startup, the backen
 
 4. Stop everything with `Ctrl+C`, or `docker compose down` from another terminal.
 
-If port `8000` or `3000` is already taken by something else on your machine, change the left-hand number in the `ports:` mapping for that service in `docker-compose.yml` (and, for the frontend, the matching `NEXT_PUBLIC_API_BASE_URL` build arg) before running step 2 again.
+If port `8000` or `3000` is already taken by something else on your machine, change the left-hand number in the `ports:` mapping for that service in `docker-compose.yml` (and, for the frontend, the matching `NEXT_PUBLIC_API_BASE_URL` build arg) before running step 2 again. If the backend container can't bind its port, `docker compose up` fails loudly on that service in the terminal even though the frontend container may still show as started — the giveaway is the frontend loading with no data, since it has nothing to talk to.
+
+Two Dockerfiles, matching the two services: `Dockerfile` at the repo root builds the backend (it needs both `backend/` and the dataset folder next to it), `frontend/Dockerfile` builds the frontend and lives alongside the code it packages.
 
 Prefer to run the two pieces yourself without Docker, or want to see the individual commands? Continue to the section below.
 
