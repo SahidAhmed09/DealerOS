@@ -12,6 +12,12 @@ services:
       dockerfile: Dockerfile
       args:
         NEXT_PUBLIC_API_BASE_URL: http://localhost:8000/api
+    environment:
+      # "backend" resolves via Compose's own network - only reachable
+      # container-to-container, which is exactly the case this covers (the
+      # frontend container's own server-side data fetches). Not NEXT_PUBLIC_,
+      # so it's read at request time, not baked into the browser bundle.
+      API_INTERNAL_BASE_URL: http://backend:8000/api
     ports:
       - "3000:3000"
     depends_on:

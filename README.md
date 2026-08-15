@@ -34,6 +34,8 @@ If port `8000` or `3000` is already taken by something else on your machine, cha
 
 Two Dockerfiles, matching the two services: `Dockerfile` at the repo root builds the backend (it needs both `backend/` and the dataset folder next to it), `frontend/Dockerfile` builds the frontend and lives alongside the code it packages.
 
+The frontend actually reaches the backend two different ways, both already wired up in `docker-compose.yml`: your browser calls it directly on the port published to your host (`NEXT_PUBLIC_API_BASE_URL`, baked in when the image is built), while the frontend container's own server-rendered pages (the dealer-group picker, the org switcher) reach it over Compose's internal network instead (`API_INTERNAL_BASE_URL=http://backend:8000/api`, resolved by container name, not by host port). Only the first one needs touching if you remap the host port; the second doesn't change regardless of what you map `8000` to on your machine, since it never leaves the Compose network.
+
 Prefer to run the two pieces yourself without Docker, or want to see the individual commands? Continue to the section below.
 
 ## Clone and set up
