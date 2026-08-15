@@ -7,6 +7,33 @@ Companion documents that go deeper than this one:
 - `DECISIONS.md`, nine short entries: what was decided, what was turned down instead, and why.
 - `TEST_REPORT.md`, the full output of a fresh test run and a fresh reconciliation run, with every disagreement entry listed. See the Tests section below for the short version.
 
+## Run it with Docker (fastest way to see it)
+
+One command builds and starts both the backend and the frontend, each in its own container, already wired to talk to each other. All you need installed is Docker Desktop — no Python or Node on your machine at all.
+
+1. Clone the repo:
+
+```
+git clone https://github.com/SahidAhmed09/DealerOS.git
+cd DealerOS
+```
+
+2. Build and start both containers:
+
+```
+docker compose up --build
+```
+
+First run takes a couple of minutes to build both images. On startup, the backend container automatically runs `migrate`, `import_data`, and `reconcile` against the CSVs already sitting in the repo, then serves the API at `http://localhost:8000/api`. The frontend container builds against that address and serves the UI at `http://localhost:3000`.
+
+3. Open `http://localhost:3000`, pick a dealer group, and the ledger loads from the live, containerized backend.
+
+4. Stop everything with `Ctrl+C`, or `docker compose down` from another terminal.
+
+If port `8000` or `3000` is already taken by something else on your machine, change the left-hand number in the `ports:` mapping for that service in `docker-compose.yml` (and, for the frontend, the matching `NEXT_PUBLIC_API_BASE_URL` build arg) before running step 2 again.
+
+Prefer to run the two pieces yourself without Docker, or want to see the individual commands? Continue to the section below.
+
 ## Clone and set up
 
 Four steps, start to finish: clone, set up the backend, set up the frontend, run both. You'll need Python 3.11+ and Node 18+, that's it, the dataset is already included in the clone.
